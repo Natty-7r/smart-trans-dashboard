@@ -10,6 +10,7 @@ import {
     Settings,
     LogOut,
     Gauge,
+    Layers,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/common/logo";
@@ -18,6 +19,7 @@ import { toast } from "sonner";
 
 const navigation = [
     { name: "Dashboard", href: "/", icon: LayoutDashboard },
+    { name: "Sites", href: "/sites", icon: Layers },
     { name: "Live Monitoring", href: "/live", icon: Activity },
     { name: "Alerts", href: "/alerts", icon: AlertTriangle },
     { name: "Site Map", href: "/map", icon: Map },
@@ -40,6 +42,14 @@ export function Sidebar() {
         }
     };
 
+    // Check if current path matches the nav item (including nested routes)
+    const isActiveRoute = (href: string) => {
+        if (href === "/") {
+            return pathname === "/";
+        }
+        return pathname?.startsWith(href) ?? false;
+    };
+
     return (
         <aside className="flex h-full w-64 flex-col border-r bg-white dark:bg-slate-950">
             {/* Logo */}
@@ -50,7 +60,7 @@ export function Sidebar() {
             {/* Navigation */}
             <nav className="flex-1 space-y-1 p-4">
                 {navigation.map((item) => {
-                    const isActive = pathname === item.href;
+                    const isActive = isActiveRoute(item.href);
                     return (
                         <Link
                             key={item.name}

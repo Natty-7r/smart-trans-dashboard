@@ -12,7 +12,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { SEVERITY_COLORS } from "@/constants/transformer.contants";
-import { formatTimeAgo } from "@/utils/transfomer.util";
+import { formatTimeAgo } from "@/utils/transformer.utils";
 
 interface EventLogTableProps {
     events: EventLogEntry[];
