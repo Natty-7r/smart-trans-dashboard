@@ -13,10 +13,12 @@ import { SiteActivityLog } from "@/components/sites/site-activity-log";
 import { SiteTransformersList } from "@/components/sites/site-transformers-list";
 import { toast } from "sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function SiteDetailPage() {
     const params = useParams();
     const router = useRouter();
+    const isMobile = useIsMobile();
     const siteId = params.id as string;
 
     const [site, setSite] = useState<SiteDetail | null>(null);
@@ -29,7 +31,6 @@ export default function SiteDetailPage() {
             try {
                 const found = getSiteById(siteId);
                 if (found) {
-                    // Add activity logs with correct type
                     const activityLogs = (DEMO_ACTIVITY_LOGS[siteId] || []) as ActivityLogEntry[];
                     setSite({
                         ...found,
@@ -129,7 +130,6 @@ export default function SiteDetailPage() {
         );
     }
 
-    // Prepare transformer data for the list
     const transformerData = site.transformers.map((id) => ({
         id,
         type: "25KVA",
@@ -138,26 +138,26 @@ export default function SiteDetailPage() {
     }));
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-4 md:space-y-6">
             {/* Header */}
-            <div className="flex flex-wrap items-center justify-between gap-4">
-                <div className="flex items-center gap-3">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-center gap-2">
                     <Button
                         variant="ghost"
-                        size="icon"
+                        size={isMobile ? "icon-sm" : "icon"}
                         onClick={() => router.push("/sites")}
                         className="h-8 w-8"
                     >
                         <ArrowLeft className="h-4 w-4" />
                     </Button>
                     <div>
-                        <h1 className="text-2xl font-bold">{site.name}</h1>
-                        <p className="text-sm text-slate-500 dark:text-slate-400">
+                        <h1 className="text-lg font-bold md:text-2xl">{site.name}</h1>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 md:text-sm">
                             {site.code} · {site.location.district}, {site.location.region}
                         </p>
                     </div>
                 </div>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size={isMobile ? "sm" : "default"} className="w-full sm:w-auto">
                     <Edit className="mr-2 h-4 w-4" />
                     Edit Site
                 </Button>
@@ -166,14 +166,16 @@ export default function SiteDetailPage() {
             {/* Overview */}
             <SiteDetailOverview site={site} />
 
-            {/* Tabs */}
+            {/* Tabs - Mobile friendly with horizontal scroll */}
             <Tabs defaultValue="technicians" className="space-y-4">
-                <TabsList>
-                    <TabsTrigger value="technicians">Technicians</TabsTrigger>
-                    <TabsTrigger value="transformers">Transformers</TabsTrigger>
-                    <TabsTrigger value="maintenance">Maintenance</TabsTrigger>
-                    <TabsTrigger value="activity">Activity Log</TabsTrigger>
-                </TabsList>
+                <div className="overflow-x-auto pb-2">
+                    <TabsList className="inline-flex w-auto min-w-full sm:min-w-0">
+                        <TabsTrigger value="technicians" className="text-xs md:text-sm">Technicians</TabsTrigger>
+                        <TabsTrigger value="transformers" className="text-xs md:text-sm">Transformers</TabsTrigger>
+                        <TabsTrigger value="maintenance" className="text-xs md:text-sm">Maintenance</TabsTrigger>
+                        <TabsTrigger value="activity" className="text-xs md:text-sm">Activity</TabsTrigger>
+                    </TabsList>
+                </div>
 
                 <TabsContent value="technicians">
                     <SiteTechnicians

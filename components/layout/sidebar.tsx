@@ -11,6 +11,7 @@ import {
     LogOut,
     Gauge,
     Layers,
+    X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/common/logo";
@@ -27,7 +28,12 @@ const navigation = [
     { name: "Settings", href: "/settings", icon: Settings },
 ];
 
-export function Sidebar() {
+interface SidebarProps {
+    isMobile?: boolean;
+    onClose?: () => void;
+}
+
+export function Sidebar({ isMobile = false, onClose }: SidebarProps) {
     const pathname = usePathname();
     const router = useRouter();
 
@@ -51,22 +57,32 @@ export function Sidebar() {
     };
 
     return (
-        <aside className="flex h-full w-64 flex-col border-r bg-white dark:bg-slate-950">
-            {/* Logo */}
-            <div className="flex h-16 items-center border-b px-4">
-                <Logo size='lg' variant="full" href="/" />
+        <div className="flex h-full w-full flex-col">
+            {/* Logo + Close button (mobile) */}
+            <div className="flex h-16 items-center justify-between border-b px-4">
+                <Logo size="lg" variant="full" href="/" />
+                {isMobile && (
+                    <button
+                        onClick={onClose}
+                        className="rounded-lg p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800"
+                        aria-label="Close menu"
+                    >
+                        <X className="h-5 w-5 text-slate-600 dark:text-slate-400" />
+                    </button>
+                )}
             </div>
 
             {/* Navigation */}
-            <nav className="flex-1 space-y-1 p-4">
+            <nav className="flex-1 space-y-1 overflow-y-auto p-4">
                 {navigation.map((item) => {
                     const isActive = isActiveRoute(item.href);
                     return (
                         <Link
                             key={item.name}
                             href={item.href}
+                            onClick={isMobile ? onClose : undefined}
                             className={cn(
-                                "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                                "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
                                 isActive
                                     ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400"
                                     : "text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800"
@@ -83,7 +99,7 @@ export function Sidebar() {
             <div className="border-t p-4">
                 <button
                     onClick={handleLogout}
-                    className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-red-50 hover:text-red-600 dark:text-slate-400 dark:hover:bg-red-950 dark:hover:text-red-400"
+                    className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-red-50 hover:text-red-600 dark:text-slate-400 dark:hover:bg-red-950 dark:hover:text-red-400"
                 >
                     <LogOut className="h-4 w-4" />
                     Logout
@@ -96,6 +112,6 @@ export function Sidebar() {
                     <span className="ml-4">Connected</span>
                 </div>
             </div>
-        </aside>
+        </div>
     );
 }
