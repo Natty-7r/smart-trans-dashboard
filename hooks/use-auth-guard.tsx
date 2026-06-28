@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { Loader2 } from "lucide-react";
 import { isAuthenticated } from "@/lib/actions/auth.action";
+import { Loader2 } from "lucide-react";
 
 export function AuthGuard({ children }: { children: React.ReactNode }) {
     const router = useRouter();
     const pathname = usePathname();
     const [isLoading, setIsLoading] = useState(true);
+    const [isAuth, setIsAuth] = useState(false);
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -20,6 +21,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
 
             try {
                 const authenticated = await isAuthenticated();
+                setIsAuth(authenticated);
                 if (!authenticated) {
                     router.replace("/auth/signin");
                 }

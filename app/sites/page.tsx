@@ -11,12 +11,14 @@ import { SiteFiltersComponent } from "@/components/sites/site-filters";
 import { AddSiteDialog } from "@/components/sites/add-site-dialog";
 import { DEMO_SITES } from "@/data/sites.data";
 import { SiteFilters } from "@/types/site.type";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type ViewMode = "table" | "map";
 
 export default function SitesPage() {
     const router = useRouter();
-    const [viewMode, setViewMode] = useState<ViewMode>("table");
+    const isMobile = useIsMobile();
+    const [viewMode, setViewMode] = useState<ViewMode>(isMobile ? "table" : "table");
     const [filters, setFilters] = useState<SiteFilters>({
         status: "all",
     });
@@ -83,43 +85,42 @@ export default function SitesPage() {
         return [avgLat, avgLng] as [number, number];
     }, [filteredSites]);
 
-    // Map zoom based on filter
-    const mapZoom = useMemo(() => {
-        if (filteredSites.length === 0) return 2;
-        if (filters.continent) return 4;
-        if (filters.country) return 6;
-        if (filters.region) return 8;
-        if (filters.district) return 10;
-        return 3;
-    }, [filters, filteredSites.length]);
+    // Build location object for map zoom
+    const mapLocation = useMemo(() => ({
+        continent: filters.continent,
+        country: filters.country,
+        region: filters.region,
+        district: filters.district,
+    }), [filters]);
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-4 md:space-y-6">
             {/* Header */}
-            <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold">Sites</h1>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                    <h1 className="text-xl font-bold md:text-2xl">Sites</h1>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 md:text-sm">
                         Manage all transformer sites across your network
                     </p>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 md:gap-3">
                     <ToggleGroup
                         type="single"
                         value={viewMode}
                         onValueChange={(value) => value && setViewMode(value as ViewMode)}
-                        className="border rounded-md"
+                        className="overflow-hidden rounded-md border"
                     >
-                        <ToggleGroupItem value="table" aria-label="Table view" className="px-3 py-1.5">
-                            <LayoutGrid className="h-4 w-4" />
+                        <ToggleGroupItem value="table" aria-label="Table view" className="px-2 py-1 md:px-3 md:py-1.5">
+                            <LayoutGrid className="h-3.5 w-3.5 md:h-4 md:w-4" />
                         </ToggleGroupItem>
-                        <ToggleGroupItem value="map" aria-label="Map view" className="px-3 py-1.5">
-                            <MapIcon className="h-4 w-4" />
+                        <ToggleGroupItem value="map" aria-label="Map view" className="px-2 py-1 md:px-3 md:py-1.5">
+                            <MapIcon className="h-3.5 w-3.5 md:h-4 md:w-4" />
                         </ToggleGroupItem>
                     </ToggleGroup>
-                    <Button onClick={() => setIsAddDialogOpen(true)}>
-                        <Plus className="mr-2 h-4 w-4" />
-                        Add Site
+                    <Button size={isMobile ? "sm" : "default"} onClick={() => setIsAddDialogOpen(true)}>
+                        <Plus className="mr-1 h-3.5 w-3.5 md:mr-2 md:h-4 md:w-4" />
+                        <span className="hidden xs:inline">Add</span>
+                        <span className="xs:hidden">+</span>
                     </Button>
                 </div>
             </div>
@@ -132,11 +133,12 @@ export default function SitesPage() {
             />
 
             {/* Results count */}
-            <div className="text-sm text-slate-500">
+            <div className="text-xs text-slate-500 md:text-sm">
                 Showing {filteredSites.length} of {DEMO_SITES.length} sites
                 {filters.continent && ` in ${filters.continent}`}
                 {filters.country && `, ${filters.country}`}
                 {filters.region && `, ${filters.region}`}
+                {filters.district && `, ${filters.district}`}
             </div>
 
             {/* View */}
@@ -147,7 +149,7 @@ export default function SitesPage() {
                     sites={filteredSites}
                     onViewSite={handleViewSite}
                     center={mapCenter}
-                    zoom={mapZoom}
+                    location={mapLocation}
                 />
             )}
 
