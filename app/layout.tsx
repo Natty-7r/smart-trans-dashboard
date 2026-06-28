@@ -11,7 +11,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Smart Trans - Transformer Monitoring Dashboard",
-  description: "Real-time transformer monitoring for Safaricom Ethiopia",
+  description: "Real-time transformer monitoring for Vodafone",
   icons: {
     icon: "/images/smart-trans.png",
     apple: "/images/smart-trans.png",
