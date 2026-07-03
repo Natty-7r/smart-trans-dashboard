@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { getSiteById, DEMO_ACTIVITY_LOGS } from "@/data/sites.data";
 import { SiteDetail, ActivityLogEntry } from "@/types/site.type";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Edit, RefreshCw } from "lucide-react";
+import { ArrowLeft, Edit, RefreshCw, Zap } from "lucide-react";
 import { SiteDetailOverview } from "@/components/sites/site-detail-overview";
 import { SiteTechnicians } from "@/components/sites/site-technicians";
 import { SiteMaintenanceHistory } from "@/components/sites/site-maintenance-history";
@@ -19,11 +19,12 @@ export default function SiteDetailPage() {
     const params = useParams();
     const router = useRouter();
     const isMobile = useIsMobile();
-    const siteId = params.id as string;
+    const siteId = params.siteId as string;
 
     const [site, setSite] = useState<SiteDetail | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isUpdating, setIsUpdating] = useState(false);
+    const [isAddTransformerOpen, setIsAddTransformerOpen] = useState(false);
 
     useEffect(() => {
         const loadSite = async () => {
@@ -106,6 +107,19 @@ export default function SiteDetailPage() {
         }
     };
 
+    const handleTransformerAdded = () => {
+        // Refresh site data
+        const found = getSiteById(siteId);
+        if (found) {
+            const activityLogs = (DEMO_ACTIVITY_LOGS[siteId] || []) as ActivityLogEntry[];
+            setSite({
+                ...found,
+                activityLog: activityLogs,
+            } as SiteDetail);
+        }
+        toast.success("Transformer added successfully!");
+    };
+
     if (isLoading) {
         return (
             <div className="flex h-[calc(100vh-10rem)] items-center justify-center">
@@ -157,16 +171,28 @@ export default function SiteDetailPage() {
                         </p>
                     </div>
                 </div>
-                <Button variant="outline" size={isMobile ? "sm" : "default"} className="w-full sm:w-auto">
-                    <Edit className="mr-2 h-4 w-4" />
-                    Edit Site
-                </Button>
+                <div className="flex items-center gap-2">
+                    {transformerData.length > 0 && (
+                        <Button
+                            variant="outline"
+                            size={isMobile ? "sm" : "default"}
+                            onClick={() => router.push(`/sites/${siteId}/transformer`)}
+                        >
+                            <Zap className="mr-2 h-4 w-4" />
+                            View Transformer
+                        </Button>
+                    )}
+                    <Button variant="outline" size={isMobile ? "sm" : "default"}>
+                        <Edit className="mr-2 h-4 w-4" />
+                        Edit Site
+                    </Button>
+                </div>
             </div>
 
             {/* Overview */}
             <SiteDetailOverview site={site} />
 
-            {/* Tabs - Mobile friendly with horizontal scroll */}
+            {/* Tabs */}
             <Tabs defaultValue="technicians" className="space-y-4">
                 <div className="overflow-x-auto pb-2">
                     <TabsList className="inline-flex w-auto min-w-full sm:min-w-0">
@@ -187,7 +213,12 @@ export default function SiteDetailPage() {
                 </TabsContent>
 
                 <TabsContent value="transformers">
-                    <SiteTransformersList transformers={transformerData} />
+                    <SiteTransformersList
+                        transformers={transformerData}
+                        siteId={siteId}
+                        siteName={site.name}
+                        onTransformerAdded={handleTransformerAdded}
+                    />
                 </TabsContent>
 
                 <TabsContent value="maintenance">

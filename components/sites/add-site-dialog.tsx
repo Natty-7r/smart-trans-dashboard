@@ -1,16 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { SiteFormData } from "@/types/site.type";
+import { Loader2, MapPin } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
-import { MapPin, Loader2 } from "lucide-react";
 
 interface AddSiteDialogProps {
     open: boolean;
@@ -100,7 +98,7 @@ export function AddSiteDialog({ open, onOpenChange, onSuccess }: AddSiteDialogPr
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+            <DialogContent className="max-w-2xl md:min-w-[700px] max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle className="text-xl">Add New Site</DialogTitle>
                     <p className="text-sm text-slate-500">Enter the details of the new transformer site</p>

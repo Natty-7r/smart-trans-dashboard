@@ -1,17 +1,17 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { useRouter } from "next/navigation";
-import { Plus, LayoutGrid, Map as MapIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { AddSiteDialog } from "@/components/sites/add-site-dialog";
+import { SiteFiltersComponent } from "@/components/sites/site-filters";
 import { SiteTable } from "@/components/sites/site-table";
 import { WorldMapView } from "@/components/sites/world-map-view";
-import { SiteFiltersComponent } from "@/components/sites/site-filters";
-import { AddSiteDialog } from "@/components/sites/add-site-dialog";
+import { Button } from "@/components/ui/button";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { DEMO_SITES } from "@/data/sites.data";
-import { SiteFilters } from "@/types/site.type";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { SiteFilters } from "@/types/site.type";
+import { Earth, LayoutGrid, Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useMemo, useState } from "react";
 
 type ViewMode = "table" | "map";
 
@@ -114,13 +114,13 @@ export default function SitesPage() {
                             <LayoutGrid className="h-3.5 w-3.5 md:h-4 md:w-4" />
                         </ToggleGroupItem>
                         <ToggleGroupItem value="map" aria-label="Map view" className="px-2 py-1 md:px-3 md:py-1.5">
-                            <MapIcon className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                            <Earth className="h-3.5 w-3.5 md:h-4 md:w-4" />
                         </ToggleGroupItem>
                     </ToggleGroup>
                     <Button size={isMobile ? "sm" : "default"} onClick={() => setIsAddDialogOpen(true)}>
                         <Plus className="mr-1 h-3.5 w-3.5 md:mr-2 md:h-4 md:w-4" />
-                        <span className="hidden xs:inline">Add</span>
-                        <span className="xs:hidden">+</span>
+                        <span className="hidden sm:inline">Add Site</span>
+
                     </Button>
                 </div>
             </div>
