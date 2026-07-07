@@ -1,11 +1,11 @@
-import { AuthProvider } from "@/context/auth.context";
+import { Toaster } from "@/components/ui/sonner";
+import { AuthProvider } from "@/hooks/use-auth";
 import { AppLayout } from "@/components/layout/app-layout";
 import { cn } from "@/lib/utils";
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthGuard } from "@/hooks/use-auth-guard";
-import { ToasterWrapper } from "@/components/common/toaster-wrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -36,13 +36,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning className="h-full">
-      <body className={cn(inter.className, "min-h-full flex flex-col antialiased")}>
+      <body
+        className={cn(inter.className, "min-h-full flex flex-col antialiased")}
+      >
+        {/* AuthProvider must wrap everything that uses useAuth() */}
         <AuthProvider>
           <AuthGuard>
             <AppLayout>{children}</AppLayout>
           </AuthGuard>
         </AuthProvider>
-        <ToasterWrapper />
+        <Toaster />
       </body>
     </html>
   );
