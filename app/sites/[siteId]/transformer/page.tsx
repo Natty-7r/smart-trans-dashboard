@@ -3,7 +3,7 @@
 import { TrafficLightIndicator } from "@/components/dashboard/traffic-light-indicator";
 import { TransformerActionLog } from "@/components/tranformer/transformer-action-log";
 import { TransformerAIAnalytics } from "@/components/tranformer/transformer-ai-analytics";
-import { TransformerForm } from '@/components/tranformer/transformer-form';
+import { TransformerForm } from "@/components/tranformer/transformer-form";
 import { TransformerGauges } from "@/components/tranformer/transformer-gauges";
 import { TransformerOverview } from "@/components/tranformer/transformer-overview";
 import { TransformerReadingHistory } from "@/components/tranformer/transformer-reading-history";
@@ -19,7 +19,6 @@ import { ArrowLeft, Edit, RefreshCw } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-
 
 export default function TransformerDetailPage() {
   const params = useParams();
@@ -63,7 +62,11 @@ export default function TransformerDetailPage() {
 
   const handleUpdateTransformer = (data: any) => {
     if (transformer) {
-      const updated = { ...transformer, ...data, lastUpdated: new Date().toISOString() };
+      const updated = {
+        ...transformer,
+        ...data,
+        lastUpdated: new Date().toISOString(),
+      };
       setTransformer(updated);
       toast.success("Transformer updated successfully");
     }
@@ -74,7 +77,9 @@ export default function TransformerDetailPage() {
       <div className="flex h-[calc(100vh-10rem)] items-center justify-center">
         <div className="text-center">
           <RefreshCw className="mx-auto h-8 w-8 animate-spin text-emerald-600" />
-          <p className="mt-2 text-sm text-slate-500">Loading transformer details...</p>
+          <p className="mt-2 text-sm text-slate-500">
+            Loading transformer details...
+          </p>
         </div>
       </div>
     );
@@ -85,7 +90,7 @@ export default function TransformerDetailPage() {
       <div className="flex h-[calc(100vh-10rem)] items-center justify-center">
         <div className="text-center">
           <p className="text-slate-500">Transformer not found</p>
-          <Button onClick={() => router.push(`/sites/${siteId}`)} className="mt-4">
+          <Button onClick={() => router.back()} className="mt-4">
             Back to Site
           </Button>
         </div>
@@ -101,21 +106,24 @@ export default function TransformerDetailPage() {
           <Button
             variant="ghost"
             size={isMobile ? "icon-sm" : "icon"}
-            onClick={() => router.push(`/sites/${siteId}`)}
+            onClick={() => router.back()}
             className="h-8 w-8 shrink-0"
           >
             <ArrowLeft className="h-4 w-4" />
           </Button>
           <div>
             <div className="flex items-center gap-2 flex-wrap">
-              <h1 className="text-lg font-bold md:text-2xl">{transformer.id}</h1>
+              <h1 className="text-lg font-bold md:text-2xl">
+                {transformer.id}
+              </h1>
               <Badge variant="outline" className="text-xs">
                 {transformer.type}
               </Badge>
               <TrafficLightIndicator status={transformer.status} size="sm" />
             </div>
             <p className="text-xs text-slate-500 dark:text-slate-400 md:text-sm">
-              {transformer.siteName} ({transformer.siteCode}) · {transformer.location.district}, {transformer.location.region}
+              {transformer.siteName} ({transformer.siteCode}) ·{" "}
+              {transformer.location.district}, {transformer.location.region}
             </p>
             <p className="text-xs text-slate-400">
               Last updated: {formatTimeAgo(transformer.lastUpdated)}
@@ -123,11 +131,18 @@ export default function TransformerDetailPage() {
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size={isMobile ? "sm" : "default"} onClick={handleRefresh}>
+          <Button
+            variant="outline"
+            size={isMobile ? "sm" : "default"}
+            onClick={handleRefresh}
+          >
             <RefreshCw className="mr-2 h-4 w-4" />
             Refresh
           </Button>
-          <Button size={isMobile ? "sm" : "default"} onClick={() => setIsEditOpen(true)}>
+          <Button
+            size={isMobile ? "sm" : "default"}
+            onClick={() => setIsEditOpen(true)}
+          >
             <Edit className="mr-2 h-4 w-4" />
             Edit
           </Button>
