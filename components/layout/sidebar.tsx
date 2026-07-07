@@ -23,7 +23,7 @@ const navigation = [
     { name: "Sites", href: "/sites", icon: Layers },
     { name: "Live Monitoring", href: "/live", icon: Activity },
     { name: "Alerts", href: "/alerts", icon: AlertTriangle },
-    { name: "Site Map", href: "/map", icon: Map },
+    // { name: "Site Map", href: "/map", icon: Map },
     { name: "Analytics", href: "/analytics", icon: Gauge },
     { name: "Settings", href: "/settings", icon: Settings },
 ];
