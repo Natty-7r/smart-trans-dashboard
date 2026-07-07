@@ -82,7 +82,7 @@ export const DEMO_SITES: Site[] = [
             latitude: 9.0056,
             longitude: 38.7636,
         },
-        transformers: ["TR-001", "TR-002"],
+        transformers: ["TR-001"], // ✅ Only 1 transformer
         technicians: ["user-003"],
         plantedDate: "2023-01-15T00:00:00Z",
         status: "nominal",
@@ -104,7 +104,7 @@ export const DEMO_SITES: Site[] = [
             latitude: 9.0256,
             longitude: 38.7836,
         },
-        transformers: ["TR-003"],
+        transformers: ["TR-003"], // ✅ Only 1 transformer
         technicians: ["user-003", "user-004"],
         plantedDate: "2023-03-20T00:00:00Z",
         status: "alarm",
@@ -126,7 +126,7 @@ export const DEMO_SITES: Site[] = [
             latitude: 9.0456,
             longitude: 38.8036,
         },
-        transformers: ["TR-004", "TR-005"],
+        transformers: ["TR-004"], // ✅ Only 1 transformer
         technicians: ["user-003", "user-002"],
         plantedDate: "2022-06-01T00:00:00Z",
         status: "critical",
@@ -148,7 +148,7 @@ export const DEMO_SITES: Site[] = [
             latitude: 9.0656,
             longitude: 38.8236,
         },
-        transformers: ["TR-006"],
+        transformers: ["TR-006"], // ✅ Only 1 transformer
         technicians: ["user-004"],
         plantedDate: "2024-01-10T00:00:00Z",
         status: "nominal",
@@ -170,7 +170,7 @@ export const DEMO_SITES: Site[] = [
             latitude: 9.0856,
             longitude: 38.8436,
         },
-        transformers: ["TR-007", "TR-008"],
+        transformers: ["TR-007"], // ✅ Only 1 transformer
         technicians: ["user-003", "user-005", "user-006"],
         plantedDate: "2023-08-15T00:00:00Z",
         status: "alarm",
@@ -192,7 +192,7 @@ export const DEMO_SITES: Site[] = [
             latitude: 9.1056,
             longitude: 38.8636,
         },
-        transformers: ["TR-009"],
+        transformers: ["TR-009"], // ✅ Only 1 transformer
         technicians: ["user-002"],
         plantedDate: "2024-06-15T00:00:00Z",
         status: "nominal",
@@ -214,7 +214,7 @@ export const DEMO_SITES: Site[] = [
             latitude: 9.1256,
             longitude: 38.8836,
         },
-        transformers: ["TR-010", "TR-011"],
+        transformers: ["TR-010"], // ✅ Only 1 transformer
         technicians: ["user-003", "user-004", "user-007"],
         plantedDate: "2023-11-20T00:00:00Z",
         status: "critical",
@@ -238,7 +238,7 @@ export const DEMO_SITES: Site[] = [
             latitude: -1.2921,
             longitude: 36.8219,
         },
-        transformers: ["TR-012", "TR-013"],
+        transformers: ["TR-012"], // ✅ Only 1 transformer
         technicians: ["user-008"],
         plantedDate: "2024-02-10T00:00:00Z",
         status: "nominal",
@@ -260,7 +260,7 @@ export const DEMO_SITES: Site[] = [
             latitude: -1.3031,
             longitude: 36.8459,
         },
-        transformers: ["TR-014"],
+        transformers: ["TR-014"], // ✅ Only 1 transformer
         technicians: ["user-008", "user-009"],
         plantedDate: "2024-05-15T00:00:00Z",
         status: "alarm",
@@ -284,7 +284,7 @@ export const DEMO_SITES: Site[] = [
             latitude: -6.8225,
             longitude: 39.2712,
         },
-        transformers: ["TR-015", "TR-016"],
+        transformers: ["TR-015"], // ✅ Only 1 transformer
         technicians: ["user-010"],
         plantedDate: "2024-03-01T00:00:00Z",
         status: "nominal",
@@ -306,7 +306,7 @@ export const DEMO_SITES: Site[] = [
             latitude: -3.3727,
             longitude: 36.6902,
         },
-        transformers: ["TR-017"],
+        transformers: ["TR-017"], // ✅ Only 1 transformer
         technicians: ["user-010", "user-011"],
         plantedDate: "2024-07-20T00:00:00Z",
         status: "critical",
@@ -330,7 +330,7 @@ export const DEMO_SITES: Site[] = [
             latitude: -26.2041,
             longitude: 28.0473,
         },
-        transformers: ["TR-018", "TR-019"],
+        transformers: ["TR-018"], // ✅ Only 1 transformer
         technicians: ["user-012"],
         plantedDate: "2024-04-10T00:00:00Z",
         status: "nominal",
@@ -352,7 +352,7 @@ export const DEMO_SITES: Site[] = [
             latitude: -33.9037,
             longitude: 18.4097,
         },
-        transformers: ["TR-020"],
+        transformers: ["TR-020"], // ✅ Only 1 transformer
         technicians: ["user-012", "user-013"],
         plantedDate: "2024-09-01T00:00:00Z",
         status: "alarm",
@@ -376,7 +376,7 @@ export const DEMO_SITES: Site[] = [
             latitude: 30.0444,
             longitude: 31.2357,
         },
-        transformers: ["TR-021", "TR-022"],
+        transformers: ["TR-021"], // ✅ Only 1 transformer
         technicians: ["user-014"],
         plantedDate: "2024-06-15T00:00:00Z",
         status: "nominal",
@@ -400,13 +400,37 @@ export const DEMO_SITES: Site[] = [
             latitude: 6.4531,
             longitude: 3.3958,
         },
-        transformers: ["TR-023"],
+        transformers: ["TR-023"], // ✅ Only 1 transformer
         technicians: ["user-015"],
         plantedDate: "2024-08-01T00:00:00Z",
         status: "critical",
         healthScore: 28,
         maintenance: [maintenanceRecords[3], maintenanceRecords[6]],
         activeAlerts: 3,
+        lastUpdated: new Date().toISOString(),
+    },
+
+    // ========== SITE WITH NO TRANSFORMER (TEST ADD) ==========
+    {
+        id: "site-016",
+        name: "New Site - No Transformer",
+        code: "ADD-999",
+        location: {
+            continent: "Africa",
+            country: "Ethiopia",
+            region: "Addis Ababa",
+            district: "Yeka",
+            specificLocation: "Yeka Subcity, Near Yeka Park",
+            latitude: 9.0556,
+            longitude: 38.8736,
+        },
+        transformers: [], // ✅ NO TRANSFORMER - Test add button
+        technicians: ["user-003"],
+        plantedDate: "2026-07-01T00:00:00Z",
+        status: "nominal",
+        healthScore: 100,
+        maintenance: [],
+        activeAlerts: 0,
         lastUpdated: new Date().toISOString(),
     },
 ];
@@ -477,9 +501,6 @@ export const getRegionsByCountry = (country: string): string[] => {
         .map((site) => site.location.region);
     return [...new Set(regions)];
 };
-
-
-// Add to existing file:
 
 // ============================================================
 // ACTIVITY LOGS
@@ -569,6 +590,13 @@ export const DEMO_TECHNICIANS = [
     { id: "user-006", name: "Alice Junior", email: "alice.junior@safaricom.com", role: "field_engineer" },
     { id: "user-007", name: "Bob Senior", email: "bob.senior@safaricom.com", role: "field_engineer" },
     { id: "user-008", name: "Catherine NOC", email: "catherine.noc@safaricom.com", role: "noc_operator" },
+    { id: "user-009", name: "David Engineer", email: "david.engineer@safaricom.com", role: "field_engineer" },
+    { id: "user-010", name: "Grace Tech", email: "grace.tech@safaricom.com", role: "field_engineer" },
+    { id: "user-011", name: "Henry Lead", email: "henry.lead@safaricom.com", role: "field_engineer" },
+    { id: "user-012", name: "Ivy Senior", email: "ivy.senior@safaricom.com", role: "field_engineer" },
+    { id: "user-013", name: "Jack Field", email: "jack.field@safaricom.com", role: "field_engineer" },
+    { id: "user-014", name: "Karen Support", email: "karen.support@safaricom.com", role: "field_engineer" },
+    { id: "user-015", name: "Leo Manager", email: "leo.manager@safaricom.com", role: "manager" },
 ];
 
 export const getTechnicianById = (id: string) => {

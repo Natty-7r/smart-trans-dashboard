@@ -1,11 +1,19 @@
+import { UserRole, UserStatus, UserLocation } from "./user.type";
+
 export interface User {
   id: string;
   email: string;
   name: string;
-  role: 'admin' | 'noc_operator' | 'field_engineer' | 'manager' | 'viewer';
+  role: UserRole;
+  status: UserStatus;
+  location: UserLocation;
+  phone?: string;
   avatar?: string;
+  assignedSites: string[]; // Site IDs
   createdAt: string;
   updatedAt: string;
+  lastActive?: string;
+  createdBy?: string;
 }
 
 export interface SignInCredentials {

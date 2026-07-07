@@ -1,6 +1,5 @@
 "use client";
 
-import { SecurityEvent } from "@/types/transformer.type";
 import {
     Table,
     TableBody,
@@ -11,8 +10,24 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { formatTimeAgo } from "@/utils/transformer.utils";
 import { SEVERITY_COLORS } from "@/constants/transformer.contants";
+import { formatTimeAgo } from "@/utils/transformer.utils";
+
+// ============================================================
+// DEFINE SECURITY EVENT TYPE LOCALLY
+// ============================================================
+
+interface SecurityEvent {
+    id: string;
+    siteId: string;
+    type: "tamper_detected" | "forced_entry" | "cable_cut" | "gps_displacement" | "enclosure_open";
+    severity: "info" | "warning" | "high" | "critical";
+    timestamp: string;
+    description: string;
+    resolved: boolean;
+    resolvedAt?: string;
+    resolvedBy?: string;
+}
 
 interface SecurityEventLogProps {
     events: SecurityEvent[];
@@ -43,7 +58,7 @@ export function SecurityEventLog({
 }: SecurityEventLogProps) {
     const displayEvents = events.slice(0, maxRows);
 
-    // Generate mock security events if none provided
+    // Mock security events if none provided
     const mockEvents: SecurityEvent[] = [
         {
             id: "SEC-001",

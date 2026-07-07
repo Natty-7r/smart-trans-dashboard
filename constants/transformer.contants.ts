@@ -1,4 +1,3 @@
-import { ThresholdConfig } from "@/types/transformer.type";
 
 // ============================================================
 // STATUS COLORS
